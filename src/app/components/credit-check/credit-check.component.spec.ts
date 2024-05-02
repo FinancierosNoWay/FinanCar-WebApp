@@ -69,5 +69,20 @@ describe('CreditCheckComponent', () => {
     expect(component.checkDNILength()).toBeFalsy();
   });
 
+  it('should return true for a DNI in the excluded list', () => {
+    const excludedDNI = '12345678'; // Assuming this DNI is present in the excluded list
+    component.excludedUserDNIs = [excludedDNI];
+    component.dniInput = excludedDNI;
+
+    expect(component.validateDNIExclusion()).toBeTruthy();
+  });
+
+  it('should return false for a DNI not in the excluded list', () => {
+    const nonExcludedDNI = '87654321'; // Assuming this DNI is not present in the excluded list
+    component.excludedUserDNIs = ['12345678'];
+    component.dniInput = nonExcludedDNI;
+
+    expect(component.validateDNIExclusion()).toBeFalsy();
+  });
 
 });
