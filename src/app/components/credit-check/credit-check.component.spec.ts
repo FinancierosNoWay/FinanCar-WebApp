@@ -68,6 +68,7 @@ describe('CreditCheckComponent', () => {
 
     expect(component.checkDNILength()).toBeFalsy();
   });
+
   it('should return true for a DNI in the excluded list', () => {
     const excludedDNI = '12345678'; // Assuming this DNI is present in the excluded list
     component.excludedUserDNIs = [excludedDNI];
