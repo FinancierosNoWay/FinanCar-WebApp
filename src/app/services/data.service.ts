@@ -18,7 +18,6 @@ export class DataService {
       'Content-Type': 'application/json'
     })
   }
-
   handleError(error: HttpErrorResponse) {
     if(error.error instanceof ErrorEvent) {
       console.log(
@@ -33,13 +32,11 @@ export class DataService {
       'Something happened with request, please try again later.'
     );
   }
-
   getList(): Observable<Data[]> {
     return this.http
       .get<Data[]>(this.baseUrl)
       .pipe(retry(2), catchError(this.handleError));
   }
-
   createItem(item: any): Observable<Data> {
     return this.http
       .post<Data>(this.baseUrl, JSON.stringify(item), this.httpOptions)
@@ -48,9 +45,6 @@ export class DataService {
   getNumeroCuotas(): Observable<number> {
     return this.getList().pipe(
       map((data: Data[]) => {
-        // Suponiendo que 'numeroCuotas' es un campo en la estructura de Data
-        // Aquí deberías implementar la lógica real para obtener el número total de cuotas
-        // En este ejemplo, simplemente sumamos todas las 'numeroCuotas' de los datos
         return data.reduce((total, current) => total + current.numeroCuotas, 0);
       }),
       catchError(this.handleError)
