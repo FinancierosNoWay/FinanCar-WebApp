@@ -95,8 +95,6 @@ describe('DataComponent', () => {
     component.getNumeroCuotas(); // Llamar al método para obtener el número de cuotas
     expect(component.numeroCuotas).toEqual(numeroCuotas);
   });
-
-
   it('should set MaxCuotas to true when trying to add more payments than allowed', () => {
     // Arrange
     const maxCuotas = 3; // Supongamos que el máximo de cuotas permitidas es 3
@@ -112,4 +110,6 @@ describe('DataComponent', () => {
     // Assert
     expect(component.MaxCuotas).toBeTrue(); // Verificar que MaxCuotas se establece en true
   });
+
+
 });
