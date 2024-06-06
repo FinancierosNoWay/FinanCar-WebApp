@@ -29,22 +29,14 @@ pipeline {
     stage('build') {
       steps {
         dir('C:\\Users\\PC\\Desktop\\Diseño de Experimentos\\FinanCar-WebApp') {
-          script {
-            try {
-              sh 'docker stop ${container_name}'
-              sh 'docker rm ${container_name}'
-              sh 'docker rmi ${image_name}:${tag_image}'
-            } catch (Exception e) {
-              echo 'Exception occurred: ' + e.toString()
-            }
-          }
-          bat 'docker build -t ${image_name}:${tag_image} .'
+
+          bat 'docker build -t nombre-imagen .'
         }
       }
     }
     stage('deploy') {
       steps {
-        bat "docker run -d -p 80:80 --name nombre-contenedor nombre-imagen "
+        bat 'docker run -d -p 8080:80 --name nombre-contenedor nombre-imagen ''
       }
     }
   }
