@@ -28,7 +28,7 @@ pipeline {
 
     stage('build') {
       steps {
-        dir('C:\\Users\\PC\\Desktop\\Diseño de Experimentos\\FinanCar-WebApp\\src') {
+        dir('C:\\Users\\PC\\Desktop\\Diseño de Experimentos\\FinanCar-WebApp') {
           script {
             try {
               sh 'docker stop ${container_name}'
