@@ -27,7 +27,6 @@ pipeline {
     }
 
     stage('build') {
-      bat 'npm run build'
       bat "docker build -t ${image_name}:${tag_image} ."
     }
     stage('deploy') {
