@@ -44,8 +44,8 @@ pipeline {
     }
     stage('deploy') {
       steps {
-        bat "docker run -d -p 8080:80 --name nombre-contenedor nombre-imagen "
-      }
+        bat 'docker run -d -p ${container_port}:80 --name ${container_name} ${image_name}:${tag_image} '
+              }
     }
   }
 }
