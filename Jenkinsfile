@@ -28,7 +28,8 @@ pipeline {
 
     stage('build') {
       dir(C:\Users\PC\Desktop\Diseño de Experimentos\FinanCar-WebApp') {
-      bat "docker build -t ${image_name}:${tag_image} ." // Construir la nueva imagen
+      bat "docker build -t ${image_name}:${tag_image} ."
+      }
     }
     stage('deploy') {
       steps {
