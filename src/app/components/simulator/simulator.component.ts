@@ -45,7 +45,7 @@ export class SimulatorComponent{
   Sostenible: boolean = true;
   NoSostenible: boolean = false;
   enDolares: boolean = false;
-  dataAgregada: boolean = false;
+  foundMatch: boolean = false;
 
   cronograma: number[] = [];
   cuotaArr: number[] = [];
@@ -55,10 +55,14 @@ export class SimulatorComponent{
   amortizacion: number[] = [];
   inmueble: number[] = [];
   degravamen: number[] = [];
+  historyData: Data;
+  data: Data[] = [];
 
   constructor(private dataService: DataService, private authService: AuthService,     private router: Router) {
     this.currentDate = new Date().toLocaleDateString();
     this.resetArrays();
+    this.historyData = {} as Data;
+    this.ComprobarData();
 
   }
 
@@ -72,8 +76,21 @@ export class SimulatorComponent{
     this.cuotaArr = [];
   }
 
-  convertirASoles(valor: number): number {
-    return valor * this.tipoCambio;
+  ComprobarData(): boolean {
+    this.dataService.getList().subscribe((datos: Data[]) => {
+          console.log(datos);
+          datos.forEach((dato: Data) => {
+            if (dato['userId'] === this.authService.getUser()?.id) {
+              this.foundMatch = true;
+              return;
+            }
+          });
+        },
+        (error) => {
+          console.log('Error al obtener los datos:', error);
+        });
+
+    return this.foundMatch;
   }
 
   convertirADolares(valor: number): number {
@@ -442,21 +459,13 @@ export class SimulatorComponent{
     });
   }
   SolicitarCredito(): void {
-    this.dataService.getList().subscribe(
-      (items: Data[]) => {
-        if (items && items.length > 0) {
-          this.mensaje = "Ya solicitaste un credito, no puedes solicitar otro.";
-          this.ocultarMensajeDespuesDe(2000);
-          return;
-        }
-        this.AgregarCredito();
-        this.router.navigate(['/data']);
-      },
-      error => {
-        console.log("Ocurrió un error al obtener los elementos de la base de datos");
-        console.log(error);
-      }
-    );
+    if (this.ComprobarData()) {
+      this.mensaje = "Ya solicitaste un credito, no puedes solicitar otro.";
+      this.ocultarMensajeDespuesDe(2000);
+    } else {
+      this.AgregarCredito();
+      this.router.navigate(['data']);
+    }
   }
   generarCronograma(): void {
     this.cronograma = [];

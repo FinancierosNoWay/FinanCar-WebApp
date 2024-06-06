@@ -17,6 +17,7 @@ export class DataComponent {
   pagos: any[] = [];
   fechaInicio: Date = new Date(); // Fecha de inicio de los pagos
   numeroCuotas: number = 0; // Número total de cuotas permitidas
+  foundMatch: boolean = false;
 
   historyData: Data;
   data: Data[] = [];
@@ -27,7 +28,8 @@ export class DataComponent {
 
   constructor(private authService: AuthService, private dataService: DataService, private liveAnnouncer: LiveAnnouncer) {
     this.historyData = {} as Data;
-    this.getNumeroCuotas(); // Obtener el número total de cuotas permitidas
+    this.getNumeroCuotas();
+    this.ComprobarData();
   }
 
   @ViewChild(MatPaginator, {static: true})
@@ -52,11 +54,11 @@ export class DataComponent {
     return this.numeroCuotas == 0;
   }
   agregarPago(): void {
-    if (this.pagos.length < this.numeroCuotas && !this.VerificarCuotas()) {
+    if (this.pagos.length < this.numeroCuotas && this.ComprobarData()) {
       const numeroPago = this.pagos.length + 1;
       const fechaPago = this.calcularFechaPago(numeroPago - 1);
       this.pagos.push({ numero: numeroPago, fechaPago: fechaPago, pagado: false });
-    } else if (this.VerificarCuotas()){
+    } else if (!this.ComprobarData()){
       alert('No se pueden agregar pagos porque no solicitaste un crédito');
     }
     else {
@@ -69,6 +71,22 @@ export class DataComponent {
     const fechaPago = new Date(this.fechaInicio);
     fechaPago.setMonth(fechaPago.getMonth() + numeroPago);
     return fechaPago;
+  }
+  ComprobarData(): boolean {
+    this.dataService.getList().subscribe((datos: Data[]) => {
+          console.log(datos);
+          datos.forEach((dato: Data) => {
+            if (dato.userId === this.authService.getUser()?.id) {
+              this.foundMatch = true;
+              return;
+            }
+          });
+        },
+        (error) => {
+          console.log('Error al obtener los datos:', error);
+        });
+
+    return this.foundMatch;
   }
 
   getNumeroCuotas(): void {

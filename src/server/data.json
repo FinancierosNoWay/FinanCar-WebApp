@@ -1,4 +1,32 @@
 {
-  "data": [
+  "users": [
+    {
+      "name": "John Doe",
+      "email": "johndoe1@gmail.com",
+      "password": "123456",
+      "repassword": "123456",
+      "id": 1
+    },
+    {
+      "name": "Marzzio Chicana",
+      "email": "oizzram1@gmail.com",
+      "password": "123456789",
+      "repassword": "123456789",
+      "id": 2
+    },
+    {
+      "name": "Selene Romero",
+      "email": "selrom1@gmail.com",
+      "password": "abcd",
+      "repassword": "abcd",
+      "id": 3
+    },
+    {
+      "name": "Josue",
+      "email": "josuecarrasco12442@gmail.com",
+      "password": "Jokacx04",
+      "repassword": "Jokacx04",
+      "id": 4
+    }
   ]
 }

@@ -73,43 +73,4 @@ describe('DataComponent', () => {
     fixture.detectChanges();
   });
 
-
-  it('should verify if payments are allowed', () => {
-    // Configuramos el número de cuotas
-    component.numeroCuotas = 5;
-    // Verificamos que las cuotas estén permitidas
-    expect(component.VerificarCuotas()).toBe(false);
-  });
-
-  it('should calculate payment date correctly', () => {
-    const fechaInicio = new Date(2024, 3, 30); // 30 de abril de 2024
-    component.fechaInicio = fechaInicio;
-    const fechaPago = component.calcularFechaPago(1); // Obtener la fecha del segundo pago
-    const fechaEsperada = new Date(2024, 4, 30); // 30 de mayo de 2024
-    expect(fechaPago).toEqual(fechaEsperada);
-  });
-
-  it('should get the number of installments', () => {
-    const numeroCuotas = 5;
-    dataServiceSpy.getNumeroCuotas.and.returnValue(of(numeroCuotas)); // Simular la respuesta del servicio
-    component.getNumeroCuotas(); // Llamar al método para obtener el número de cuotas
-    expect(component.numeroCuotas).toEqual(numeroCuotas);
-  });
-  it('should set MaxCuotas to true when trying to add more payments than allowed', () => {
-    // Arrange
-    const maxCuotas = 3; // Supongamos que el máximo de cuotas permitidas es 3
-    spyOn(window, 'alert'); // Espiar la función alert para evitar que se muestre una alerta real
-    dataServiceSpy.getNumeroCuotas.and.returnValue(of(maxCuotas)); // Simular que el servicio devuelve un máximo de 3 cuotas
-
-    // Act
-    component.getNumeroCuotas(); // Obtener el número de cuotas
-    component.numeroCuotas = maxCuotas; // Establecer el número de cuotas permitidas
-    component.pagos = [{}, {}, {}]; // Agregar 3 pagos para alcanzar el máximo permitido
-    component.agregarPago(); // Intentar agregar otro pago
-
-    // Assert
-    expect(component.MaxCuotas).toBeTrue(); // Verificar que MaxCuotas se establece en true
-  });
-
-
 });

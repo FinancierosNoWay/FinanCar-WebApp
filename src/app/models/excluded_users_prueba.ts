@@ -1,7 +1,7 @@
 export class ExcludedUsersPrueba {
   private excludedDNIList: string[] = [
-    '12345678', // Ejemplo de DNI excluido 1
-    '87654321', // Ejemplo de DNI excluido 2
+    '12345678',
+    '87654321',
   ];
 
   constructor() {}
@@ -21,5 +21,4 @@ export class ExcludedUsersPrueba {
     return this.excludedDNIList;
   }
 
-  // ... (El resto de los métodos permanece igual)
 }

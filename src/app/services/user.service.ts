@@ -8,8 +8,8 @@ import { Users } from '../models/users';
 })
 export class UserService {
 
-  baseUrl = "https://my-json-server.typicode.com/FinancierosNoWay/FinanCar-FakeAPI/users";
-
+  baseUrl = "https://spectacular-enthusiasm-production.up.railway.app/api/v1/user/obtenerUser";
+  createUrl ="https://spectacular-enthusiasm-production.up.railway.app/api/v1/user/guardarUser";
   constructor( private http: HttpClient) { }
 
   httpOptions = {
@@ -41,7 +41,7 @@ export class UserService {
 
   createItem(item: any): Observable<Users> {
     return this.http
-      .post<Users>(this.baseUrl, JSON.stringify(item), this.httpOptions)
+      .post<Users>(this.createUrl, JSON.stringify(item), this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
 }

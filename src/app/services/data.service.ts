@@ -9,7 +9,8 @@ import {map} from "rxjs/operators";
 })
 export class DataService {
 
-  baseUrl = "http://localhost:3000/data";
+  baseUrl = "https://spectacular-enthusiasm-production.up.railway.app/api/v1/data/obtenerData";
+  createUrl = "https://spectacular-enthusiasm-production.up.railway.app/api/v1/data/guardarData"
 
   constructor( private http: HttpClient) { }
 
@@ -18,6 +19,7 @@ export class DataService {
       'Content-Type': 'application/json'
     })
   }
+
   handleError(error: HttpErrorResponse) {
     if(error.error instanceof ErrorEvent) {
       console.log(
@@ -32,14 +34,16 @@ export class DataService {
       'Something happened with request, please try again later.'
     );
   }
+
   getList(): Observable<Data[]> {
     return this.http
       .get<Data[]>(this.baseUrl)
       .pipe(retry(2), catchError(this.handleError));
   }
+
   createItem(item: any): Observable<Data> {
     return this.http
-      .post<Data>(this.baseUrl, JSON.stringify(item), this.httpOptions)
+      .post<Data>(this.createUrl, JSON.stringify(item), this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
   getNumeroCuotas(): Observable<number> {
