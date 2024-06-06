@@ -28,9 +28,10 @@ pipeline {
 
     stage('build') {
     steps{
-    bat 'cd cd C:\Users\PC\Desktop\Diseño de Experimentos\FinanCar-WebApp'
+      dir('FinanCar-WebApp'){
       bat 'docker build -t nombre-imagen .'
       }
+    }
     }
     stage('deploy') {
       steps {
