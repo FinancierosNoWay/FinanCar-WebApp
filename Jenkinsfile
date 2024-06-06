@@ -27,11 +27,11 @@ pipeline {
     }
 
     stage('build') {
-    steps{
-      dir('src'){
-        bat 'docker build -t nombre-imagen .'
+      steps {
+        dir('C:\\Users\\PC\\Desktop\\Diseño de Experimentos\\FinanCar-WebApp\\src') {
+          bat 'docker build -t nombre-imagen .'
+        }
       }
-    }
     }
     stage('deploy') {
       steps {
