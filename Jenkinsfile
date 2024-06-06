@@ -28,8 +28,8 @@ pipeline {
 
     stage('build') {
     steps{
-      dir('FinanCar-WebApp'){
-      bat 'docker build -t nombre-imagen .'
+      dir('src'){
+        bat 'docker build -t nombre-imagen .'
       }
     }
     }
