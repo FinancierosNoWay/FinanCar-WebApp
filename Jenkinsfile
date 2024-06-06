@@ -15,7 +15,7 @@ pipeline {
   stages {
     stage('install') {
       steps {
-        git branch: 'main', url: 'https://github.com/JosueCarrascoH/FinanCar.git'
+        git branch: 'main', url: 'https://github.com/FinancierosNoWay/FinanCar-WebApp.git'
         bat 'npm install'
       }
     }
