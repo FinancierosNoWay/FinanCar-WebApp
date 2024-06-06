@@ -38,7 +38,8 @@ pipeline {
               echo 'Exception occurred: ' + e.toString()
             }
           }
-          bat 'docker build -t nombre-imagen .'
+          bat 'npm run build'
+          bat 'docker build -t ${image_name}:${tag_image} .'
         }
       }
     }
