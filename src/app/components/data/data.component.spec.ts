@@ -1,25 +1,26 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { DataComponent } from './data.component';
-import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
-import {UserToolbarComponent} from "../user-toolbar/user-toolbar.component";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatIconModule} from "@angular/material/icon";
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
-import {BehaviorSubject, of} from "rxjs";
-import {MatTableModule} from "@angular/material/table";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {RouterTestingModule} from "@angular/router/testing";
-import {Component} from "@angular/core";
-import {DataService} from "../../services/data.service";
+import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { UserToolbarComponent } from "../user-toolbar/user-toolbar.component";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatIconModule } from "@angular/material/icon";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { BehaviorSubject, of } from "rxjs";
+import { MatTableModule } from "@angular/material/table";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Component } from "@angular/core";
+import { DataService } from "../../services/data.service";
+
 // Creamos un stub para ActivatedRoute
 @Component({
   selector: 'app-user-toolbar',
   template: ''
 })
 class UserToolbarStubComponent {}
+
 class ActivatedRouteStub {
   private subject = new BehaviorSubject({}); // Inicializamos con un objeto vacío
   params = this.subject.asObservable();
@@ -41,10 +42,8 @@ describe('DataComponent', () => {
     const dataServiceSpyObj = jasmine.createSpyObj('DataService', ['getNumeroCuotas']);
     await TestBed.configureTestingModule({
       imports: [FormsModule, HttpClientModule, MatPaginatorModule, MatIconModule,
-        MatTableModule, RouterModule,
-        BrowserModule,
-        BrowserAnimationsModule ],
-      declarations: [DataComponent,UserToolbarStubComponent],
+        MatTableModule, RouterModule, BrowserModule, BrowserAnimationsModule ],
+      declarations: [ DataComponent, UserToolbarStubComponent ],
       providers: [
         { provide: ActivatedRoute, useClass: ActivatedRouteStub },
         { provide: Router, useClass: RouterTestingModule }
@@ -71,6 +70,26 @@ describe('DataComponent', () => {
 
     // Inicializamos el componente
     fixture.detectChanges();
+  });
+  it('should verify if payments are allowed', () => {
+    // Configuramos el número de cuotas
+    component.numeroCuotas = 5;
+    // Verificamos que las cuotas estén permitidas
+    expect(component.VerificarCuotas()).toBe(false);
+  });
+  it('should calculate payment date correctly', () => {
+    const fechaInicio = new Date(2024, 3, 30); // 30 de abril de 2024
+    component.fechaInicio = fechaInicio;
+    const fechaPago = component.calcularFechaPago(1);
+    const fechaEsperada = new Date(2024, 4, 30); // 30 de mayo de 2024
+    expect(fechaPago).toEqual(fechaEsperada);
+  });
+
+  it('should get the number of installments', () => {
+    const numeroCuotas = 5;
+    dataServiceSpy.getNumeroCuotas.and.returnValue(of(numeroCuotas));
+    component.getNumeroCuotas();
+    expect(component.numeroCuotas).toEqual(numeroCuotas);
   });
 
 });

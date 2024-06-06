@@ -1,8 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SimulatorComponent } from './simulator.component';
-import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { MatTableModule } from '@angular/material/table';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SimulatorComponent', () => {
   let component: SimulatorComponent;
@@ -10,10 +16,18 @@ describe('SimulatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SimulatorComponent],
-      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-      imports: [HttpClientTestingModule,
-        FormsModule]
+      imports: [
+        FormsModule,
+        HttpClientModule,
+        MatPaginatorModule,
+        MatIconModule,
+        MatTableModule,
+        RouterModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        RouterTestingModule
+      ],
+      declarations: [ SimulatorComponent ]
     })
       .compileComponents();
   });
@@ -24,4 +38,7 @@ describe('SimulatorComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
