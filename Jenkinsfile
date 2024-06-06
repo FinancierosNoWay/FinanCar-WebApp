@@ -29,13 +29,14 @@ pipeline {
     stage('build') {
       steps {
         script {
+          // Detener y eliminar el contenedor anterior si existe
           try {
-            bat "docker stop ${container_name}" // Detener el contenedor anterior si existe
-            bat "docker rm ${container_name}"   // Eliminar el contenedor anterior si existe
-            bat "docker rmi ${image_name}:${tag_image}" // Eliminar la imagen anterior si existe
+            bat "docker stop ${container_name}"
           } catch (Exception e) {
-            echo 'Exception occurred: ' + e.toString()
+            echo 'No se encontró ningún contenedor con el nombre ${container_name}.'
           }
+          bat "docker rm -f ${container_name} || true" // Eliminar el contenedor si existe o continuar si no existe
+          bat "docker rmi -f ${image_name}:${tag_image} || true" // Eliminar la imagen si existe o continuar si no existe
         }
         bat 'npm run build'
         bat "docker build -t ${image_name}:${tag_image} ." // Construir la nueva imagen
@@ -44,11 +45,10 @@ pipeline {
 
     stage('deploy') {
       steps {
-        script {
-          // Ejecutar el contenedor con la nueva imagen
-          bat "docker run -d -p ${container_port}:80 --name ${container_name} ${image_name}:${tag_image}"
-        }
+        // Ejecutar el contenedor con la nueva imagen
+        bat "docker run -d -p ${container_port}:80 --name ${container_name} ${image_name}:${tag_image}"
       }
     }
   }
 }
+
