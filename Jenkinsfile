@@ -31,9 +31,9 @@ pipeline {
         dir('C:\\Users\\PC\\Desktop\\Diseño de Experimentos\\FinanCar-WebApp') {
           script {
             try {
-              sh 'docker stop ${container_name}'
-              sh 'docker rm ${container_name}'
-              sh 'docker rmi ${image_name}:${tag_image}'
+              bat 'docker stop ${container_name}'
+              bat 'docker rm ${container_name}'
+              bat 'docker rmi ${image_name}:${tag_image}'
             } catch (Exception e) {
               echo 'Exception occurred: ' + e.toString()
             }
