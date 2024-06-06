@@ -29,7 +29,16 @@ pipeline {
     stage('build') {
       steps {
         dir('C:\\Users\\PC\\Desktop\\Diseño de Experimentos\\FinanCar-WebApp\\src') {
-          bat 'docker build -t nombre-imagen .'
+          script {
+            try {
+              sh 'docker stop ${container_name}'
+              sh 'docker rm ${container_name}'
+              sh 'docker rmi ${image_name}:${tag_image}'
+            } catch (Exception e) {
+              echo 'Exception occurred: ' + e.toString()
+            }
+          }
+          bat 'docker build -t ${image_name}:${tag_image} .'
         }
       }
     }
