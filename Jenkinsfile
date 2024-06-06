@@ -25,14 +25,6 @@ pipeline {
         bat 'npm run test --configuration=headless'
       }
     }
-
-    stage('build') {
-       steps {
-          script {
-              bat 'npm run build'
-          }
-       }
-    }
     stage('build') {
        steps {
           script {
