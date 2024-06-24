@@ -8,8 +8,8 @@ import { Users } from '../models/users';
 })
 export class UserService {
 
-  baseUrl = "https://spectacular-enthusiasm-production.up.railway.app/api/v1/user/obtenerUser";
-  createUrl ="https://spectacular-enthusiasm-production.up.railway.app/api/v1/user/guardarUser";
+  baseUrl = "http://localhost:3000/users";
+  createUrl ="http://localhost:3000/users";
   constructor( private http: HttpClient) { }
 
   httpOptions = {

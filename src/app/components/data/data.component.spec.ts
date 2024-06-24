@@ -86,10 +86,26 @@ describe('DataComponent', () => {
   });
 
   it('should get the number of installments', () => {
-    const numeroCuotas = 5;
+    const numeroCuotas = 20;
     dataServiceSpy.getNumeroCuotas.and.returnValue(of(numeroCuotas));
     component.getNumeroCuotas();
     expect(component.numeroCuotas).toEqual(numeroCuotas);
+  });
+  it('should set MaxCuotas to true when no data is found', () => {
+    // Simulamos que no hay datos para el usuario actual
+    spyOn(component['dataService'], 'getList').and.returnValue(of([]));
+
+    // Llamamos a ComprobarData(), que debería retornar false porque no hay datos
+    const result = component.ComprobarData();
+
+    // Verificamos que ComprobarData() devuelva false
+    expect(result).toBe(false);
+
+    // Intentamos agregar un pago, lo que debería establecer MaxCuotas en true
+    component.agregarPago();
+
+    // Verificamos que MaxCuotas sea true después de intentar agregar un pago sin datos
+    expect(component.MaxCuotas).toBe(true);
   });
 
 });

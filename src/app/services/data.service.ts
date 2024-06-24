@@ -9,8 +9,8 @@ import {map} from "rxjs/operators";
 })
 export class DataService {
 
-  baseUrl = "https://spectacular-enthusiasm-production.up.railway.app/api/v1/data/obtenerData";
-  createUrl = "https://spectacular-enthusiasm-production.up.railway.app/api/v1/data/guardarData"
+  baseUrl = "http://localhost:3000/data";
+  createUrl = "http://localhost:3000/data"
 
   constructor( private http: HttpClient) { }
 

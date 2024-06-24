@@ -60,10 +60,10 @@ export class DataComponent {
       this.pagos.push({ numero: numeroPago, fechaPago: fechaPago, pagado: false });
     } else if (!this.ComprobarData()){
       alert('No se pueden agregar pagos porque no solicitaste un crédito');
-    }
-    else {
-      alert('Ya se han agregado todas las cuotas permitidas.');
       this.MaxCuotas = true;
+    }
+    else  {
+      alert('Ya se han agregado todas las cuotas permitidas.');
     }
   }
 

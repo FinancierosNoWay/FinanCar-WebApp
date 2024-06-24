@@ -9,7 +9,7 @@ import {Excluded_users} from "../../models/excluded_users";
   providedIn: 'root'
 })
 export class ExcludedUsersService {
-  baseUrl = "http://localhost:3000/excluded_users";
+  baseUrl = "https://my-json-server.typicode.com/FinancierosNoWay/FinanCar-FakeAPI/excluded_users";
   handleError(error: HttpErrorResponse) {
     if(error.error instanceof ErrorEvent) {
       console.log(
