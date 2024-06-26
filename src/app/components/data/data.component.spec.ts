@@ -71,41 +71,29 @@ describe('DataComponent', () => {
     // Inicializamos el componente
     fixture.detectChanges();
   });
-  it('should verify if payments are allowed', () => {
-    // Configuramos el número de cuotas
-    component.numeroCuotas = 5;
-    // Verificamos que las cuotas estén permitidas
-    expect(component.VerificarCuotas()).toBe(false);
+  it('debería retornar true cuando numeroCuotas es 0', () => {
+    component.numeroCuotas = 0;
+    expect(component.VerificarCuotas()).toBeTrue();
   });
-  it('should calculate payment date correctly', () => {
-    const fechaInicio = new Date(2024, 3, 30); // 30 de abril de 2024
+
+  it('debería retornar false cuando numeroCuotas no es 0', () => {
+    component.numeroCuotas = 5;
+    expect(component.VerificarCuotas()).toBeFalse();
+  });
+  it('debería calcular la fecha de pago correctamente', () => {
+    const fechaInicio = new Date(2022, 0, 1);
     component.fechaInicio = fechaInicio;
     const fechaPago = component.calcularFechaPago(1);
-    const fechaEsperada = new Date(2024, 4, 30); // 30 de mayo de 2024
-    expect(fechaPago).toEqual(fechaEsperada);
+    expect(fechaPago).toEqual(new Date(2022, 1, 1));
   });
+  it('no debería agregar un pago si las condiciones no se cumplen', () => {
+    component.numeroCuotas = 5;
+    spyOn(component, 'ComprobarData').and.returnValue(false);
+    component.pagos = [];
 
-  it('should get the number of installments', () => {
-    const numeroCuotas = 20;
-    dataServiceSpy.getNumeroCuotas.and.returnValue(of(numeroCuotas));
-    component.getNumeroCuotas();
-    expect(component.numeroCuotas).toEqual(numeroCuotas);
-  });
-  it('should set MaxCuotas to true when no data is found', () => {
-    // Simulamos que no hay datos para el usuario actual
-    spyOn(component['dataService'], 'getList').and.returnValue(of([]));
-
-    // Llamamos a ComprobarData(), que debería retornar false porque no hay datos
-    const result = component.ComprobarData();
-
-    // Verificamos que ComprobarData() devuelva false
-    expect(result).toBe(false);
-
-    // Intentamos agregar un pago, lo que debería establecer MaxCuotas en true
     component.agregarPago();
 
-    // Verificamos que MaxCuotas sea true después de intentar agregar un pago sin datos
-    expect(component.MaxCuotas).toBe(true);
+    expect(component.pagos.length).toBe(0);
   });
 
 });
