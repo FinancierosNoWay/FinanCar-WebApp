@@ -9,8 +9,9 @@ import {map} from "rxjs/operators";
 })
 export class DataService {
 
-  baseUrl = "http://localhost:3000/data";
-  createUrl = "http://localhost:3000/data"
+  baseUrl = "https://pacific-serenity-production.up.railway.app/api/v1/data/obtenerData";
+  createUrl = "https://pacific-serenity-production.up.railway.app/api/v1/data/guardarData"
+  deleteUrl = "https://pacific-serenity-production.up.railway.app/api/v1/data/eliminarData";
 
   constructor( private http: HttpClient) { }
 
@@ -53,5 +54,11 @@ export class DataService {
       }),
       catchError(this.handleError)
     );
+  }
+  deleteItem(id: number): Observable<void> {
+    const url = `${this.deleteUrl}/${id}`;
+    return this.http
+      .delete<void>(url, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
   }
 }

@@ -14,6 +14,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 })
 export class DataComponent {
   MaxCuotas: boolean = false;
+  Paid:boolean=false;
   pagos: any[] = [];
   fechaInicio: Date = new Date(); // Fecha de inicio de los pagos
   numeroCuotas: number = 0; // Número total de cuotas permitidas
@@ -21,7 +22,7 @@ export class DataComponent {
 
   historyData: Data;
   data: Data[] = [];
-  displayedColumns: string[] = ['numero', 'moneda', 'precioVivienda', 'cuotaInicial', 'tasaEfectiva', 'numeroCuotas', 'periodoGraciaTotal', 'periodoGraciaParcial', 'cuota'];
+  displayedColumns: string[] = ['numero', 'moneda', 'precioVivienda', 'cuotaInicial', 'tasaEfectiva', 'numeroCuotas', 'periodoGraciaTotal', 'periodoGraciaParcial', 'cuota', 'acciones'];
 
   dataSource = new MatTableDataSource<Data>(this.data);
   clickedRows = new Set<Data>();
@@ -50,6 +51,17 @@ export class DataComponent {
       }
     )
   }
+  deleteData(id: number): void {
+    this.dataService.deleteItem(id).subscribe(
+      () => {
+        console.log('Data deleted successfully');
+        this.dataSource.data = this.dataSource.data.filter(data => data.id !== id);
+      },
+      (error) => {
+        console.error('Error deleting data:', error);
+      }
+    );
+  }
   VerificarCuotas(): boolean {
     return this.numeroCuotas == 0;
   }
@@ -64,6 +76,7 @@ export class DataComponent {
     }
     else  {
       alert('Ya se han agregado todas las cuotas permitidas.');
+      this.Paid = true;
     }
   }
 
@@ -92,7 +105,7 @@ export class DataComponent {
   getNumeroCuotas(): void {
     this.dataService.getNumeroCuotas().subscribe(
       (numero: number) => {
-        this.numeroCuotas = numero;
+        this.numeroCuotas = numero/2;
       },
       (error) => {
         console.error('Error al obtener el número de cuotas:', error);

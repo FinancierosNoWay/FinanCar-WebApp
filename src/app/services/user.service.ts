@@ -8,8 +8,8 @@ import { Users } from '../models/users';
 })
 export class UserService {
 
-  baseUrl = "http://localhost:3000/users";
-  createUrl ="http://localhost:3000/users";
+  baseUrl = "https://pacific-serenity-production.up.railway.app/api/v1/user/obtenerUser";
+  createUrl ="https://pacific-serenity-production.up.railway.app/api/v1/user/guardarUser";
   constructor( private http: HttpClient) { }
 
   httpOptions = {
