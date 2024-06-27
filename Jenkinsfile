@@ -28,15 +28,16 @@ pipeline {
 
     stage('build') {
       steps {
-        
-          bat 'npm run build'
-          bat 'docker build -t ${image_name}:${tag_image} .'
+
+
+          bat 'docker build -t financar .'
+
 
       }
     }
     stage('deploy') {
       steps {
-        bat 'docker run -d -p ${container_port}:80 --name contenedor imagen '
+        bat 'docker run -d -p 80:80 --name financar'
               }
     }
   }
