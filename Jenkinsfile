@@ -37,7 +37,7 @@ pipeline {
     }
     stage('deploy') {
       steps {
-        bat 'docker run -d -p 80:80 financar'
+        bat 'docker run -d -it -p 80:80 financar'
               }
     }
   }
